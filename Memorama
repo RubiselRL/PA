@@ -1,0 +1,608 @@
+public class Principal extends javax.swing.JFrame {
+    
+    final int totalCartas=5;
+    ImageIcon cartas[];
+    int m_tablero[];
+    int score=0;
+    int terminar=0;
+    int partida=0;
+    
+    public Principal() {
+        initComponents();
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(Color.white);
+        
+        //mensaje inicial
+        JOptionPane.showMessageDialog(this,"Bienvenido.\nEste programa simula en computadora"
+                + " el juego de \"Memorama\". \nEl objetivo es encontrar los pares de cada imagen, cuatro en total. \n"
+                + "Para iniciar, da click en el botón \"Jugar\" y disfruta del juego.\n"
+                + "Al finalizar, en la esquina superior derecha aparecerá tu puntaje.");
+        
+        cartas = new ImageIcon[totalCartas];
+        cartas[0] = new ImageIcon("pic2.png");
+        cartas[1] = new ImageIcon("pic3.png");
+        cartas[2] = new ImageIcon("pic4.png");
+        cartas[3] = new ImageIcon("pic5.png");
+        
+        cartas[4] = new ImageIcon("pic1.png");  
+        
+        m_tablero= new int [(cartas.length-1) *2];
+        
+        ubicarCartas();
+        inicializar();
+        
+        //iguales en una variable con la cual nos permitira ingresar a la accion
+        //de la carta.
+        iguales=true;
+    }
+    
+    String card[]=new String[2]; 
+    JButton botones[] = new JButton[2];
+    //////////////////////////////////////////////////////////////
+    public void comparar(){
+        //ciclo para verificar con un setSelected si la carta esta seleccionada.
+        for (int i = 0; i < 2; i++) {
+        if(btn1.isSelected()){
+            //guarda el nombre de la carta
+            card[i]=cartas[m_tablero[0]].toString();
+            //deselecciona al boton
+            btn1.setSelected(false);
+            //se guarda en boton en un arreglo temporal de botones
+            botones[i]=btn1;
+            
+        } else if(btn2.isSelected()){
+            card[i]=cartas[m_tablero[1]].toString();
+            btn2.setSelected(false);
+            botones[i]=btn2;
+        }
+        else if(btn3.isSelected()){
+            card[i]=cartas[m_tablero[2]].toString();
+            btn3.setSelected(false);
+            botones[i]=btn3;
+    }
+        else if(btn4.isSelected()){
+            card[i]=cartas[m_tablero[3]].toString();
+            btn4.setSelected(false);
+            botones[i]=btn4;
+    }
+        else if(btn5.isSelected()){
+            card[i]=cartas[m_tablero[4]].toString();
+            btn5.setSelected(false);
+            botones[i]=btn5;
+    }   else if(btn6.isSelected()){
+            card[i]=cartas[m_tablero[5]].toString();
+            btn6.setSelected(false);
+            botones[i]=btn6;
+    }
+        else if(btn7.isSelected()){
+            card[i]=cartas[m_tablero[6]].toString();
+            btn7.setSelected(false);
+            botones[i]=btn7;
+    }
+        else if(btn8.isSelected()){
+            card[i]=cartas[m_tablero[7]].toString();
+            btn8.setSelected(false);
+            botones[i]=btn8;
+    }}
+        //compara cartas
+        if(card[0].equals(card[1])){
+            //clase temporal para dar un tiempo a la ejecucion.
+            new Thread(){
+                public void run(){
+                    try{
+                    Thread.sleep(300);
+            terminar++;
+            botones[0].setEnabled(false);
+            botones[1].setEnabled(false);
+            cont1=0;cont2=0;cont3=0;cont4=0;cont5=0;cont6=0;cont7=0;cont8=0;
+            //agrega puntaje
+            score=score+270;
+            puntaje.setText(String.valueOf("Puntos: "+score));
+            
+            //si el programa ha terminado se muestra un mensaje con el puntaje final
+            if(terminar==4){
+                if(score<700){
+                    
+                    JOptionPane.showMessageDialog(null, "Su puntuación ha sido: "+
+                            score+".","Memorandium",JOptionPane.INFORMATION_MESSAGE);
+                } else if(score<850){
+                    JOptionPane.showMessageDialog(null, "Okay :) su puntuación ha sido "+
+                            score+".","Memorandium",JOptionPane.INFORMATION_MESSAGE);
+                } 
+                else if(score<1000){
+                    JOptionPane.showMessageDialog(null, "Bien hecho!! :D su puntuación ha sido "+
+                            score+".","Memorandium",JOptionPane.INFORMATION_MESSAGE);
+                } else if(score<1200){
+                    JOptionPane.showMessageDialog(null, "Felicidades!! :,D ha logrado la puntuación maxima, "+
+                            score+" puntos.","Memorandium",JOptionPane.INFORMATION_MESSAGE);
+                }
+                //boton jugar se desactiva por si se quiere jugar una nueva partida.
+                jugar.setText("De nuevo.");
+                jugar.setEnabled(true);
+                partida++;
+            }}catch(Exception ex){}}}.start();
+            
+            //si no son iguales...
+        } else {
+            new Thread(){
+                //tiempo para ejecucion
+                public void run(){
+                    try{
+                    Thread.sleep(300);
+                    //ciclo que "voltea" las cartas
+            for (int i = 0; i < 2; i++) {
+                botones[i].setIcon(cartas[totalCartas-1]);
+            }
+            cont1=0;cont2=0;cont3=0;cont4=0;cont5=0;cont6=0;cont7=0;cont8=0;
+            //si score es menor a cero se queda en 0.
+            if(score<0){
+                score=0;
+                puntaje.setText(String.valueOf("Puntos: "+score));
+            }
+            //si es mayor a 0 se disminuyen 105 puntos.
+            if(score>0){
+                score=score-105;
+                if(score<0){
+                score=0;
+            }
+            puntaje.setText(String.valueOf("Puntos: "+score));
+        }}catch(Exception ex){}}}.start();}
+    }
+    /////////////////////////////////////////////////////////////////////
+   
+    public void inicializar(){
+        iguales=false;
+        btn1.setIcon(cartas[totalCartas-1]);
+        btn2.setIcon(cartas[totalCartas-1]);
+        btn3.setIcon(cartas[totalCartas-1]);
+        btn4.setIcon(cartas[totalCartas-1]);
+        btn5.setIcon(cartas[totalCartas-1]);
+        btn6.setIcon(cartas[totalCartas-1]);
+        btn7.setIcon(cartas[totalCartas-1]);
+        btn8.setIcon(cartas[totalCartas-1]);
+        
+        desblockBotones();
+    }
+    
+    public void desblockBotones(){
+        btn1.setEnabled(true);
+        btn2.setEnabled(true);
+        btn3.setEnabled(true);
+        btn4.setEnabled(true);
+        btn5.setEnabled(true);
+        btn6.setEnabled(true);
+        btn7.setEnabled(true);
+        btn8.setEnabled(true);
+    }
+    
+    public void ubicarCartas(){
+        //matamos todas las posiciones
+        for (int i = 0; i < m_tablero.length; i++) {
+            m_tablero[i] = -1;
+        }
+        
+        
+        //revivimos las posiciones asignandoles one card.
+        int cont;
+        Random rnd = new Random();
+        int index;
+        
+        for (int i = 0; i < cartas.length-1; i++) { //por cada carta
+            cont = 0;
+            while(cont<2){
+                index = rnd.nextInt(m_tablero.length);
+                                
+                if (m_tablero[index]==-1) {
+                    m_tablero[index] = i;
+                     cont++;
+                }
+            }
+        }
+        
+        //visualizar las cards
+        btn1.setIcon(cartas[m_tablero[0]]);
+        btn2.setIcon(cartas[m_tablero[1]]);
+        btn3.setIcon(cartas[m_tablero[2]]);
+        btn4.setIcon(cartas[m_tablero[3]]);
+        btn5.setIcon(cartas[m_tablero[4]]);
+        btn6.setIcon(cartas[m_tablero[5]]);
+        btn7.setIcon(cartas[m_tablero[6]]);
+        btn8.setIcon(cartas[m_tablero[7]]);
+        
+       
+        desblockBotones();
+    }
+    
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        btn1 = new javax.swing.JButton();
+        btn3 = new javax.swing.JButton();
+        btn2 = new javax.swing.JButton();
+        btn4 = new javax.swing.JButton();
+        btn5 = new javax.swing.JButton();
+        btn6 = new javax.swing.JButton();
+        btn7 = new javax.swing.JButton();
+        btn8 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jugar = new javax.swing.JButton();
+        puntaje = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btn1.setOpaque(false);
+        btn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn1ActionPerformed(evt);
+            }
+        });
+
+        btn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn3ActionPerformed(evt);
+            }
+        });
+
+        btn2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn2MouseClicked(evt);
+            }
+        });
+        btn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn2ActionPerformed(evt);
+            }
+        });
+
+        btn4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn4ActionPerformed(evt);
+            }
+        });
+
+        btn5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn5ActionPerformed(evt);
+            }
+        });
+
+        btn6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn6ActionPerformed(evt);
+            }
+        });
+
+        btn7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn7ActionPerformed(evt);
+            }
+        });
+
+        btn8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn8ActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(0, 153, 0));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+
+        jPanel2.setBackground(new java.awt.Color(51, 153, 0));
+
+        jugar.setBackground(new java.awt.Color(255, 255, 255));
+        jugar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jugar.setForeground(new java.awt.Color(51, 102, 0));
+        jugar.setText("Jugar");
+        jugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jugarActionPerformed(evt);
+            }
+        });
+
+        puntaje.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        puntaje.setForeground(new java.awt.Color(255, 255, 255));
+        puntaje.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        puntaje.setText("Puntos: 0");
+
+        jLabel1.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("MEMORANDIUM");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jugar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(129, 129, 129)
+                        .addComponent(puntaje, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(109, 109, 109)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jugar)
+                    .addComponent(puntaje)))
+        );
+
+        jButton1.setBackground(new java.awt.Color(0, 102, 0));
+        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("X");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1))
+        );
+
+        pack();
+    }// </editor-fold>                        
+    
+    int cont1=0,cont2=0,cont3=0,cont4=0,cont5=0,cont6=0,cont7=0,cont8=0,suma=0;
+    boolean iguales=true;
+    
+    private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        //si iguales es diferente a verdadero entrara a la accion del boton.
+        if(!iguales){
+        //valor unico asignado
+        cont1=1;
+        //asignacion de la carta
+        btn1.setIcon(cartas[m_tablero[0]]);
+        //indicar que esta seleccionado
+        btn1.setSelected(true);
+        //sumatoria de parejas, debe dar 2 para entrar al metodo comparar
+        suma=cont1+cont2+cont3+cont4+cont5+cont6+cont7+cont8;
+        if (suma==2){
+                        comparar();
+        }}
+    }                                    
+
+    private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        if(!iguales){
+        cont2=1;
+        btn2.setIcon(cartas[m_tablero[1]]);
+        btn2.setSelected(true);
+        suma=cont1+cont2+cont3+cont4+cont5+cont6+cont7+cont8;
+        if (suma==2){
+                        comparar();
+        }
+        }
+    }                                    
+
+    private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        if(!iguales){
+        cont3=1;
+
+        btn3.setIcon(cartas[m_tablero[2]]);
+        btn3.setSelected(true);
+        suma=cont1+cont2+cont3+cont4+cont5+cont6+cont7+cont8;
+        if (suma==2){
+            comparar();
+        }
+        }
+    }                                    
+
+    private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        if(!iguales){
+        cont4=1;
+        
+        btn4.setIcon(cartas[m_tablero[3]]);
+        btn4.setSelected(true);
+        suma=cont1+cont2+cont3+cont4+cont5+cont6+cont7+cont8;
+        if (suma==2){
+            comparar();
+        }
+        }
+    }                                    
+
+    private void btn2MouseClicked(java.awt.event.MouseEvent evt) {                                  
+        
+    }                                 
+    int clics=1;
+    private void jugarActionPerformed(java.awt.event.ActionEvent evt) {                                      
+    if(partida>0){
+        inicializar();
+    jugar.setText("¿Listo?");
+    clics++;
+    partida=0;
+    iguales=true;
+    
+    } else if(clics>1){
+    ubicarCartas();
+    inicializar();
+    jugar.setText("¡Vamos!");
+    jugar.setEnabled(false);
+    terminar=0;
+    score=0;
+    puntaje.setText("Puntos: "+String.valueOf(score));
+    
+    } else if(partida==0){
+    inicializar();
+    jugar.setText("¡Vamos!");
+    jugar.setEnabled(false);
+    }
+    }                                     
+
+    private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        if(!iguales){ 
+        cont5=1;
+        btn5.setIcon(cartas[m_tablero[4]]);
+        btn5.setSelected(true);
+        suma=cont1+cont2+cont3+cont4+cont5+cont6+cont7+cont8;
+        if (suma==2){
+            comparar();
+        }}
+    }                                    
+
+    private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        if(!iguales){
+        cont6=1;
+        btn6.setIcon(cartas[m_tablero[5]]);
+        btn6.setSelected(true);
+        suma=cont1+cont2+cont3+cont4+cont5+cont6+cont7+cont8;
+        if (suma==2){
+            comparar();
+        } }
+    }                                    
+
+    private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        if(!iguales){
+        cont7=1;
+        btn7.setIcon(cartas[m_tablero[6]]);
+        btn7.setSelected(true);
+        suma=cont1+cont2+cont3+cont4+cont5+cont6+cont7+cont8;
+        
+        if (suma==2){
+            comparar();
+        } }
+    }                                    
+
+    private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        if(!iguales){
+        cont8=1;
+        btn8.setIcon(cartas[m_tablero[7]]);
+        btn8.setSelected(true);
+        suma=cont1+cont2+cont3+cont4+cont5+cont6+cont7+cont8;
+        
+        if (suma==2){
+            comparar();
+        }}
+    }                                    
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        int op=JOptionPane.showConfirmDialog(this,"¿Salir de Memorandium?");
+        if (op==JOptionPane.OK_OPTION) {
+            System.exit(0);
+        }
+    }                                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Principal().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton btn1;
+    private javax.swing.JButton btn2;
+    private javax.swing.JButton btn3;
+    private javax.swing.JButton btn4;
+    private javax.swing.JButton btn5;
+    private javax.swing.JButton btn6;
+    private javax.swing.JButton btn7;
+    private javax.swing.JButton btn8;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton jugar;
+    private javax.swing.JLabel puntaje;
+    // End of variables declaration                   
+}
